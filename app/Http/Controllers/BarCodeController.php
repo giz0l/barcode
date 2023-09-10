@@ -2,28 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BarCode;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-
-
+use App\Services\BarCodeService;
 class BarCodeController extends Controller
 {
+    public function __construct(
+        protected BarCodeService $barCodeService,
+    ) {
+    }
+
     /**
      * Wyświetl formualarz generowania kodu wraz z listą kodów
      */
     public function index(): View
     {
-        return view('home');
+        return view('home', ['codes' => BarCode::all()]);
     }
 
     /**
      *  Generuj kod
      */
-    public function create(Request $request): RedirectResponse
+    public function create(Request $request)
     {
-        // Generuj kod
-
-        return redirect('/');
+        return $this->barCodeService->createBarCode($request->nameCode, $request->valueCode);
     }
 }

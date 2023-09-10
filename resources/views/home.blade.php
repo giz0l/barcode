@@ -20,4 +20,28 @@
         <button type="submit" class="btn btn-primary mt-3">Generuj</button>
       </form>
 </div>
+
+<div class="mx-auto mt-5" style="width: 1200px;">
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Wartość</th>
+            <th scope="col">Kod</th>
+          </tr>
+        </thead>
+        <tbody>
+            @foreach ($codes as $index => $code)
+            <tr>
+                <th scope="row">{{ $index+1 }}</th>
+                <td>{{ $code->name }}</td>
+                <td>{{ $code->value }}</td>
+                <td><img src="{{ $code->path }}" alt="barcode"/></td>
+              </tr>
+            @endforeach
+        </tbody>
+      </table>
+
+</div>
 @endsection
