@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BarCode;
 use Illuminate\View\View;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreBarCodeRequest;
 use App\Services\BarCodeService;
 class BarCodeController extends Controller
 {
@@ -24,8 +24,8 @@ class BarCodeController extends Controller
     /**
      *  Generuj kod
      */
-    public function create(Request $request)
+    public function create(StoreBarCodeRequest $request)
     {
-        return $this->barCodeService->createBarCode($request->nameCode, $request->valueCode);
+        return $this->barCodeService->createBarCode($request->name, $request->value);
     }
 }

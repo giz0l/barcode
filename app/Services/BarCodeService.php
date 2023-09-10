@@ -5,6 +5,7 @@ use Milon\Barcode\DNS1D;
 use App\Models\BarCode;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
 
 class BarCodeService
 {
@@ -18,7 +19,7 @@ class BarCodeService
     public function createBarCode(string $name, string $value)
     {
         try{
-            \DB::beginTransaction();
+            DB::beginTransaction();
 
             $barcode = new BarCode(
                 [
@@ -29,12 +30,12 @@ class BarCodeService
             );
 
             $barcode->save();
-            \DB::commit();
+            DB::commit();
 
             return redirect('/');
 
         } catch (\Exception $e) {
-            \DB::rollBack();
+            DB::rollBack();
             throw $e;
         }
     }
@@ -49,15 +50,16 @@ class BarCodeService
     public function alphabetToNumber(string $value): string
     {
         $input = strtoupper($value);
-        $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $result = 0;
+        $result = '';
 
         for ($i = 0; $i < strlen($input); $i++) {
             $char = $input[$i];
-            $position = strpos($alphabet, $char);
 
-            if ($position !== false) {
-                $result = $result * 26 + ($position + 1);
+            if (ctype_alpha($char)) {
+                $position = ord($char) - ord('A') + 1;
+                $result .= $position;
+            } else {
+                $result .= $char;
             }
         }
 
@@ -65,7 +67,7 @@ class BarCodeService
     }
 
     /**
-     * Konwertuj png na webp
+     * Generuj kod kreskowy w formacie webp
      *
      * @param string $value
      *

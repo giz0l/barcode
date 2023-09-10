@@ -9,12 +9,18 @@
         @csrf
         <div class="form-group">
             <label for="nameCode">Nazwa kodu</label>
-            <input type="text" class="form-control" name="nameCode" id="nameCode">
+            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="nameCode">
+            @error('name')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
             <small class="form-text text-muted">Wpisz tutaj nazwę kodu który chcesz wygenerować</small>
         </div>
         <div>
             <label for="valueCode">Wartość kodu</label>
-            <input type="text" class="form-control" name="valueCode" id="valueCode">
+            <input type="text" class="form-control @error('value') is-invalid @enderror" name="value" id="valueCode">
+            @error('value')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
             <small class="form-text text-muted">Wpisz tutaj wartość kodu którą zapiszesz</small>
         </div>
         <button type="submit" class="btn btn-primary mt-3">Generuj</button>
